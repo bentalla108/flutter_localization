@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:universal_io/io.dart';
 
 import '../../flutter_localization.dart';
 import '../model/ensure_initialized_exception.dart';
+import '../utility/locale_interop.dart';
 import '../utility/preference_util.dart';
 import 'flutter_localization_delegate.dart';
 import 'flutter_localization_translator.dart';
@@ -45,7 +47,8 @@ class FlutterLocalization {
 
   /// Get default locale object from string localeName of Platform class
   Locale _platformLocale() {
-    final locale = Platform.localeName.split(RegExp(r'[-_]'));
+    final localeName = kIsWasm ? getBrowserLocale() : Platform.localeName;
+    final locale = localeName.split(RegExp(r'[-_]'));
     return Locale.fromSubtags(
       languageCode: locale.first,
       countryCode: locale.last,
