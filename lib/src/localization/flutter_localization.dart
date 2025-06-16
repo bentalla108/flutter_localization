@@ -4,8 +4,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:universal_io/io.dart';
 
 import '../../flutter_localization.dart';
+import '../../flutter_localization_platform_interface.dart';
 import '../model/ensure_initialized_exception.dart';
-import '../utility/locale_interop.dart';
 import '../utility/preference_util.dart';
 import 'flutter_localization_delegate.dart';
 import 'flutter_localization_translator.dart';
@@ -42,12 +42,14 @@ class FlutterLocalization {
   Future<void> ensureInitialized() async {
     final locale = await PreferenceUtil.getLocale();
     _localeFromPreferences = locale != null;
-    _currentLocale = locale ?? _platformLocale();
+    _currentLocale = locale ?? await _platformLocale();
   }
 
   /// Get default locale object from string localeName of Platform class
-  Locale _platformLocale() {
-    final localeName = kIsWasm ? getBrowserLocale() : Platform.localeName;
+  Future<Locale> _platformLocale() async {
+    final localeName = kIsWasm
+        ? await FlutterLocalizationPlatform.instance.getPlatformLocale()
+        : Platform.localeName;
     final locale = localeName.split(RegExp(r'[-_]'));
     return Locale.fromSubtags(
       languageCode: locale.first,

@@ -1,7 +1,3 @@
-// In order to *not* need this ignore, consider extracting the "web" version
-// of your plugin as a separate package, instead of inlining it in the same
-// package as the core of your plugin.
-// ignore: avoid_web_libraries_in_flutter
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:web/web.dart' as web;
 
@@ -16,10 +12,15 @@ class FlutterLocalizationWeb extends FlutterLocalizationPlatform {
     FlutterLocalizationPlatform.instance = FlutterLocalizationWeb();
   }
 
-  /// Returns a [String] containing the version of the platform.
+  /// Returns a String containing the version of the platform.
   @override
-  Future<String?> getPlatformVersion() async {
-    final version = web.window.navigator.userAgent;
-    return version;
+  Future<String> getPlatformVersion() async {
+    return web.window.navigator.userAgent;
+  }
+
+  /// Returns a String containing the language locale.
+  @override
+  Future<String> getPlatformLocale() async {
+    return web.window.navigator.language;
   }
 }
