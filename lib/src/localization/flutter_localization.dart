@@ -47,7 +47,7 @@ class FlutterLocalization {
 
   /// Get default locale object from string localeName of Platform class
   Future<Locale> _platformLocale() async {
-    final localeName = kIsWasm
+    final localeName = kIsWeb
         ? await FlutterLocalizationPlatform.instance.getPlatformLocale()
         : Platform.localeName;
     final locale = localeName.split(RegExp(r'[-_]'));
