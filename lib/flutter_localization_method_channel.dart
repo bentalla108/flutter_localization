@@ -10,9 +10,16 @@ class MethodChannelFlutterLocalization extends FlutterLocalizationPlatform {
   final methodChannel = const MethodChannel('flutter_localization');
 
   @override
-  Future<String?> getPlatformVersion() async {
+  Future<String> getPlatformVersion() async {
     final version =
         await methodChannel.invokeMethod<String>('getPlatformVersion');
-    return version;
+    return version ?? '';
+  }
+
+  @override
+  Future<String> getPlatformLocale() async {
+    final locale =
+        await methodChannel.invokeMethod<String>('getPlatformLocale');
+    return locale ?? '';
   }
 }

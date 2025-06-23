@@ -1,3 +1,7 @@
+## 0.3.3
+
+* Resolve issue with **Platform._localeName** on **Web** platform
+
 ## 0.3.2
 
 * Update environment sdk to ^3.0.0
